@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-
-import '../controllers/cart_controller.dart';
+import 'package:xmshop/app/modules/cart/controllers/cart_controller.dart';
 
 class CartView extends GetView<CartController> {
   const CartView({Key? key}) : super(key: key);

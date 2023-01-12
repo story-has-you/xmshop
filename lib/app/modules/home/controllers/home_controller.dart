@@ -1,23 +1,24 @@
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  RxBool flag = false.obs;
+  final ScrollController scrollController = ScrollController();
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    scrollController.addListener(() {
+      double pixels = scrollController.position.pixels;
+      if (pixels > 10) {
+        if (!flag.value) {
+          flag.value = true;
+        }
+      }
+      if (pixels < 10 && flag.value) {
+        flag.value = false;
+      }
+      update();
+    });
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

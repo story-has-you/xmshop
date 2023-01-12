@@ -1,12 +1,11 @@
 import 'package:get/get.dart';
-
-import '../controllers/tabs_controller.dart';
-import '../../home/controllers/home_controller.dart';
-import '../../category/controllers/category_controller.dart';
-import '../../service/controllers/service_controller.dart';
-import '../../cart/controllers/cart_controller.dart';
-import '../../user/controllers/user_controller.dart';
-import '../../serach/controllers/serach_controller.dart';
+import 'package:xmshop/app/modules/cart/controllers/cart_controller.dart';
+import 'package:xmshop/app/modules/category/controllers/category_controller.dart';
+import 'package:xmshop/app/modules/home/controllers/home_controller.dart';
+import 'package:xmshop/app/modules/serach/controllers/serach_controller.dart';
+import 'package:xmshop/app/modules/service/controllers/service_controller.dart';
+import 'package:xmshop/app/modules/tabs/controllers/tabs_controller.dart';
+import 'package:xmshop/app/modules/user/controllers/user_controller.dart';
 
 class TabsBinding extends Bindings {
   @override

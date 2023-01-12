@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-
-import '../controllers/service_controller.dart';
+import 'package:xmshop/app/modules/service/controllers/service_controller.dart';
 
 class ServiceView extends GetView<ServiceController> {
   const ServiceView({Key? key}) : super(key: key);

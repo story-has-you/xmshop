@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-
-import '../controllers/serach_controller.dart';
+import 'package:xmshop/app/modules/serach/controllers/serach_controller.dart';
 
 class SerachView extends GetView<SerachController> {
   const SerachView({Key? key}) : super(key: key);
