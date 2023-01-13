@@ -8,13 +8,7 @@ import '../../user/views/user_view.dart';
 
 class TabsController extends GetxController {
   final RxInt currentIndex = 0.obs;
-  final List<Widget> pageList = const [
-    HomeView(),
-    CategoryView(),
-    ServiceView(),
-    CartView(),
-    UserView()
-  ];
+  final List<Widget> pageList = [HomeView(), CategoryView(), ServiceView(), CartView(), UserView()];
   final PageController pageController = PageController(initialPage: 0);
 
   void setCurrentIndex(index) {

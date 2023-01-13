@@ -20,4 +20,8 @@ class ScreenAdapter {
   static getScreenHeigt() {
     return 1.sh;
   }
+
+  static fontSize34() {
+    return 34.sp;
+  }
 }
