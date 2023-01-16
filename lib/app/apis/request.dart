@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Request request = Request();
 
 class Request {
-  static const baseUrl = "https://xiaomi.itying.com/api";
+  static const baseUrl = "https://xiaomi.itying.com";
   static const connectTimeout = 15000;
   static const receiveTimeout = 500;
   static const successCode = 200;
@@ -15,14 +17,30 @@ class Request {
       connectTimeout: connectTimeout,
       receiveTimeout: receiveTimeout,
     ));
+
+    _dio.interceptors.add(InterceptorsWrapper(
+      onResponse: (response, handler) {
+        int? statusCode = response.statusCode;
+        if (statusCode != 200) {
+          Fluttertoast.showToast(
+            msg: "网络错误, 请稍后重试",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.grey,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        }
+        return handler.next(response);
+      },
+    ));
   }
 
-  Future<dynamic> request(String url, {String method = "GET", Map<String, dynamic>? queryParameters, data, Map<String, dynamic>? headers}) async {
+  Future<Response<T>> fetch<T>(String url, {method = "get", data, Map<String, dynamic>? queryParameters, Map<String, dynamic>? headers}) {
     Options options = Options()
       ..method = method
       ..headers = headers;
-
-    Response response = await _dio.request(baseUrl + url, queryParameters: queryParameters, data: data, options: options);
-    return response.data;
+    return _dio.request(baseUrl + url, queryParameters: queryParameters, data: data, options: options);
   }
 }
