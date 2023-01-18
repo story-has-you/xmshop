@@ -11,6 +11,7 @@ class HomeController extends GetxController {
   final RxList<FocusItem> bestSellingList = <FocusItem>[].obs;
   final RxList<CategoryItem> categoryList = <CategoryItem>[].obs;
   final RxList<PlistItem> bestSellingProductList = <PlistItem>[].obs;
+  final RxList<PlistItem> waterfallsFlowList = <PlistItem>[].obs;
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -25,6 +26,7 @@ class HomeController extends GetxController {
     _initCategory();
     _initBestSelling();
     _initBestSellingProduct();
+    _initWaterfallsFlowList();
     update();
   }
 
@@ -50,6 +52,12 @@ class HomeController extends GetxController {
     var response = await request.fetch("/api/plist?is_hot=1");
     var list = PlistModel.fromJson(response.data);
     bestSellingProductList.value = list.result;
+  }
+
+  _initWaterfallsFlowList() async {
+    var response = await request.fetch("/api/plist?is_best=1");
+    var list = PlistModel.fromJson(response.data);
+    waterfallsFlowList.value = list.result;
   }
 
   _initScroll() {

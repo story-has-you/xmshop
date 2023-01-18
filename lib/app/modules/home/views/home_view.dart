@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:xmshop/app/apis/request.dart';
 import 'package:xmshop/app/modules/home/controllers/home_controller.dart';
@@ -8,62 +11,58 @@ import 'package:xmshop/app/services/swiper.dart';
 import 'package:xmshop/app/services/xm_fonts.dart';
 
 class HomeView extends GetView<HomeController> {
-  HomeView({Key? key}) : super(key: key);
-  final ScrollController scrollController = ScrollController();
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          appBar(),
-          homePage(),
+          _homePage(),
+          _appBar(),
         ],
       ),
     );
   }
 
   // 顶部导航
-  Widget appBar() {
+  Widget _appBar() {
     return Positioned(
       top: 0,
       left: 0,
       right: 0,
       child: Obx(
         () => AppBar(
+          leading: controller.flag.value ? const Text("") : const Icon(XmFonts.xiaomi, color: Colors.white),
+          leadingWidth: controller.flag.value ? ScreenAdapter.width(40) : ScreenAdapter.width(140),
           title: AnimatedContainer(
-            duration: const Duration(milliseconds: 600),
             width: controller.flag.value ? ScreenAdapter.width(800) : ScreenAdapter.width(620),
             height: ScreenAdapter.height(96),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(230, 252, 243, 236),
-              borderRadius: BorderRadius.circular(30),
-            ),
+            decoration: BoxDecoration(color: const Color.fromARGB(230, 252, 243, 236), borderRadius: BorderRadius.circular(30)),
+            duration: const Duration(milliseconds: 600),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: EdgeInsets.fromLTRB(ScreenAdapter.width(34), 0, ScreenAdapter.width(10), 0),
-                  child: Icon(Icons.search, color: controller.flag.value ? Colors.black87 : Colors.white),
+                  child: const Icon(Icons.search),
                 ),
-                Text("手机",
-                    style: TextStyle(
-                      fontSize: ScreenAdapter.fontSize(36),
-                      color: controller.flag.value ? Colors.black87 : Colors.white,
-                    )),
+                Text("手机", style: TextStyle(color: Colors.black54, fontSize: ScreenAdapter.fontSize(32)))
               ],
             ),
           ),
           centerTitle: true,
-          // 透明效果
           backgroundColor: controller.flag.value ? Colors.white : Colors.transparent,
-          // 去掉阴影
           elevation: 0,
-          leadingWidth: controller.flag.value ? ScreenAdapter.width(20) : ScreenAdapter.width(120),
-          leading: controller.flag.value ? const Text("") : const Icon(XmFonts.xiaomi, color: Colors.white),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.qr_code)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.message)),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.qr_code,
+                color: controller.flag.value ? Colors.black87 : Colors.white,
+              ),
+            ),
+            IconButton(onPressed: () {}, icon: Icon(Icons.message, color: controller.flag.value ? Colors.black87 : Colors.white))
           ],
         ),
       ),
@@ -71,20 +70,21 @@ class HomeView extends GetView<HomeController> {
   }
 
 // 内容区域
-  Widget homePage() {
+  Widget _homePage() {
     return Positioned(
       top: -ScreenAdapter.height(150),
       left: 0,
       right: 0,
       bottom: 0,
       child: ListView(
-        controller: scrollController,
+        controller: controller.scrollController,
         children: [
           _focus(),
           _banner(),
           _category(),
           _banner2(),
           _bestSelling(),
+          _bestProduct(),
         ],
       ),
     );
@@ -268,6 +268,58 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
             ],
+          ),
+        )
+      ],
+    );
+  }
+
+  // 瀑布流
+  Widget _bestProduct() {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.all(ScreenAdapter.width(26)),
+          color: const Color.fromRGBO(246, 246, 246, 1),
+          child: Obx(
+            () => MasonryGridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: ScreenAdapter.width(26),
+              crossAxisSpacing: ScreenAdapter.width(26),
+              itemCount: controller.waterfallsFlowList.length,
+              shrinkWrap: true, // 收缩，让元素宽度自适应
+              physics: const NeverScrollableScrollPhysics(), //禁止滑动
+              itemBuilder: (context, index) {
+                var item = controller.waterfallsFlowList[index];
+                var picUrl = "${Request.baseUrl}/${item.sPic}";
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    children: [
+                      Container(padding: EdgeInsets.all(ScreenAdapter.width(10)), child: Image.network(picUrl, fit: BoxFit.cover)),
+                      Container(
+                        padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                        width: double.infinity,
+                        child: Text(item.title, textAlign: TextAlign.start, style: TextStyle(fontSize: ScreenAdapter.fontSize(36), fontWeight: FontWeight.bold)),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                        width: double.infinity,
+                        child: Text(item.subTitle, textAlign: TextAlign.start, style: TextStyle(fontSize: ScreenAdapter.fontSize34())),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                        width: double.infinity,
+                        child: Text("¥ ${item.price}元", textAlign: TextAlign.start, style: TextStyle(fontSize: ScreenAdapter.fontSize34())),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         )
       ],
