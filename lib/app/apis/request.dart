@@ -9,16 +9,14 @@ class Request {
   static const connectTimeout = 15000;
   static const receiveTimeout = 500;
   static const successCode = 200;
-  late Dio _dio;
+  static final Dio dio = Dio(BaseOptions(
+    baseUrl: baseUrl,
+    connectTimeout: connectTimeout,
+    receiveTimeout: receiveTimeout,
+  ));
 
   Request() {
-    _dio = Dio(BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: connectTimeout,
-      receiveTimeout: receiveTimeout,
-    ));
-
-    _dio.interceptors.add(InterceptorsWrapper(
+    dio.interceptors.add(InterceptorsWrapper(
       onResponse: (response, handler) {
         int? statusCode = response.statusCode;
         if (statusCode != 200) {
@@ -41,6 +39,10 @@ class Request {
     Options options = Options()
       ..method = method
       ..headers = headers;
-    return _dio.request(baseUrl + url, queryParameters: queryParameters, data: data, options: options);
+    return dio.request(baseUrl + url, queryParameters: queryParameters, data: data, options: options);
+  }
+
+  static String replaceUrl(String url) {
+    return url.replaceAll("\\", "/");
   }
 }

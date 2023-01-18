@@ -1,23 +1,35 @@
 import 'package:get/get.dart';
+import 'package:xmshop/app/apis/models/category/category_model.dart';
+import 'package:xmshop/app/apis/request.dart';
 
 class CategoryController extends GetxController {
-  //TODO: Implement CategoryController
+  final RxInt selectIndex = 0.obs;
+  final RxList<CategoryItem> categoryList = <CategoryItem>[].obs;
+  final RxList<CategoryItem> categoryDataList = <CategoryItem>[].obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    _initCategoryList();
+    update();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void changeIndex(int index, String id) {
+    selectIndex.value = index;
+    _initCategoryData(id);
+    update();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  _initCategoryList() async {
+    var response = await request.fetch("/api/pcate");
+    var data = CategoryModel.fromJson(response.data);
+    categoryList.value = data.result;
+    _initCategoryData(categoryList.value[0].id);
   }
 
-  void increment() => count.value++;
+  _initCategoryData(String pid) async {
+    var response = await request.fetch("/api/pcate?pid=$pid");
+    var data = CategoryModel.fromJson(response.data);
+    categoryDataList.value = data.result;
+  }
 }

@@ -36,7 +36,7 @@ class HomeView extends GetView<HomeController> {
           title: AnimatedContainer(
             width: controller.flag.value ? ScreenAdapter.width(800) : ScreenAdapter.width(620),
             height: ScreenAdapter.height(96),
-            decoration: BoxDecoration(color: controller.flag.value ? Colors.black12 : Colors.white38, borderRadius: BorderRadius.circular(30)),
+            decoration: BoxDecoration(color: const Color.fromRGBO(246, 246, 246, 1), borderRadius: BorderRadius.circular(30)),
             duration: const Duration(milliseconds: 600),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -111,7 +111,7 @@ class HomeView extends GetView<HomeController> {
                       width: ScreenAdapter.width(140),
                       height: ScreenAdapter.height(140),
                       child: Image.network(
-                        picUrl.replaceAll("\\", "/"),
+                        Request.replaceUrl(picUrl),
                         fit: BoxFit.fitWidth,
                       ),
                     ),
@@ -140,7 +140,7 @@ class HomeView extends GetView<HomeController> {
           itemBuilder: (context, index) {
             String picUrl = "${Request.baseUrl}/${controller.swiperList[index].pic}";
             return Image.network(
-              picUrl.replaceAll("\\", "/"),
+              Request.replaceUrl(picUrl),
               fit: BoxFit.fill,
             );
           },
@@ -206,7 +206,7 @@ class HomeView extends GetView<HomeController> {
                       itemBuilder: (context, index) {
                         String picUrl = "${Request.baseUrl}/${controller.bestSellingList[index].pic}";
                         return Image.network(
-                          picUrl.replaceAll("\\", "/"),
+                          Request.replaceUrl(picUrl),
                           fit: BoxFit.fill,
                         );
                       },
