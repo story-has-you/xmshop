@@ -20,10 +20,8 @@ class TabsView extends GetView<TabsController> {
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: "首页"),
               BottomNavigationBarItem(icon: Icon(Icons.category), label: "分类"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.room_service), label: "服务"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_cart), label: "购物车"),
+              BottomNavigationBarItem(icon: Icon(Icons.room_service), label: "服务"),
+              BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "购物车"),
               BottomNavigationBarItem(icon: Icon(Icons.people), label: "用户"),
             ],
             fixedColor: Colors.red,

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -38,7 +36,7 @@ class HomeView extends GetView<HomeController> {
           title: AnimatedContainer(
             width: controller.flag.value ? ScreenAdapter.width(800) : ScreenAdapter.width(620),
             height: ScreenAdapter.height(96),
-            decoration: BoxDecoration(color: const Color.fromARGB(230, 252, 243, 236), borderRadius: BorderRadius.circular(30)),
+            decoration: BoxDecoration(color: controller.flag.value ? Colors.black12 : Colors.white38, borderRadius: BorderRadius.circular(30)),
             duration: const Duration(milliseconds: 600),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
