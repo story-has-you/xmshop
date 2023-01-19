@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xmshop/app/apis/request.dart';
 import 'package:xmshop/app/modules/category/controllers/category_controller.dart';
+import 'package:xmshop/app/routes/app_pages.dart';
 import 'package:xmshop/app/services/screen_adapter.dart';
 
 class CategoryView extends GetView<CategoryController> {
@@ -103,10 +104,13 @@ class CategoryView extends GetView<CategoryController> {
               var item = controller.categoryDataList[index];
               return Column(
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    width: double.infinity,
-                    child: Image.network("${Request.baseUrl}/${item.pic}", fit: BoxFit.fitHeight),
+                  InkWell(
+                    onTap: (() => Get.toNamed(Routes.PRODUCT_LIST, arguments: {"id": item.id})),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      child: Image.network("${Request.baseUrl}/${item.pic}", fit: BoxFit.fitHeight),
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, ScreenAdapter.height(10), 0, 0),
