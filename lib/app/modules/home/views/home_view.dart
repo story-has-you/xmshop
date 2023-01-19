@@ -103,7 +103,7 @@ class HomeView extends GetView<HomeController> {
               ),
               itemCount: 10,
               itemBuilder: ((context, i) {
-                String picUrl = "${Request.baseUrl}/${controller.categoryList[index * 10 + i].pic}";
+                String picUrl = controller.categoryList[index * 10 + i].pic;
                 return Column(
                   children: [
                     Container(
@@ -111,7 +111,7 @@ class HomeView extends GetView<HomeController> {
                       width: ScreenAdapter.width(140),
                       height: ScreenAdapter.height(140),
                       child: Image.network(
-                        Request.replaceUrl(picUrl),
+                        Request.picUrl(picUrl),
                         fit: BoxFit.fitWidth,
                       ),
                     ),
@@ -138,9 +138,9 @@ class HomeView extends GetView<HomeController> {
         height: ScreenAdapter.height(682),
         child: Swiper(
           itemBuilder: (context, index) {
-            String picUrl = "${Request.baseUrl}/${controller.swiperList[index].pic}";
+            String picUrl = controller.swiperList[index].pic;
             return Image.network(
-              Request.replaceUrl(picUrl),
+              Request.picUrl(picUrl),
               fit: BoxFit.fill,
             );
           },
@@ -204,9 +204,9 @@ class HomeView extends GetView<HomeController> {
                   child: Obx(
                     () => Swiper(
                       itemBuilder: (context, index) {
-                        String picUrl = "${Request.baseUrl}/${controller.bestSellingList[index].pic}";
+                        String picUrl = controller.bestSellingList[index].pic;
                         return Image.network(
-                          Request.replaceUrl(picUrl),
+                          Request.picUrl(picUrl),
                           fit: BoxFit.fill,
                         );
                       },

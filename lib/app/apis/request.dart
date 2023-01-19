@@ -42,7 +42,7 @@ class Request {
     return dio.request(baseUrl + url, queryParameters: queryParameters, data: data, options: options);
   }
 
-  static String replaceUrl(String url) {
-    return url.replaceAll("\\", "/");
+  static String picUrl(String url) {
+    return "$baseUrl\\$url";
   }
 }

@@ -1,89 +1,116 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:xmshop/app/apis/request.dart';
 import 'package:xmshop/app/modules/product_list/controllers/product_list_controller.dart';
 import 'package:xmshop/app/services/screen_adapter.dart';
 
 class ProductListView extends GetView<ProductListController> {
   const ProductListView({Key? key}) : super(key: key);
+//自定义组件
+  Widget _progressIndicator() {
+    if (controller.hasData.value) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      return const Center(
+        child: Text("没有数据了哦，我是有底线的"),
+      );
+    }
+  }
+
   Widget _productListWidget() {
-    return ListView.builder(
-        padding: EdgeInsets.fromLTRB(ScreenAdapter.width(26), ScreenAdapter.width(140), ScreenAdapter.width(26), ScreenAdapter.height(26)),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.only(bottom: ScreenAdapter.height(26)),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-            //行
-            child: Row(
-              children: [
-                //左侧
-                Container(
-                  padding: EdgeInsets.all(ScreenAdapter.width(60)),
-                  width: ScreenAdapter.width(400),
-                  height: ScreenAdapter.height(460),
-                  child: Image.network("https://xiaomi.itying.com/public/upload/5xyr9OTSK1pwJ5ng7YgpKOkd.png_200x200.png", fit: BoxFit.fitHeight),
-                ),
-                //右侧
-                Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return Obx(
+      () => controller.productList.isNotEmpty
+          ? ListView.builder(
+              controller: controller.scrollController,
+              padding: EdgeInsets.fromLTRB(ScreenAdapter.width(26), ScreenAdapter.width(140), ScreenAdapter.width(26), ScreenAdapter.height(26)),
+              itemCount: controller.productList.length,
+              itemBuilder: (context, index) {
+                var item = controller.productList[index];
+                return Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
-                      child: Text("Redmi Note 11", style: TextStyle(fontSize: ScreenAdapter.fontSize(42), fontWeight: FontWeight.bold)),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
-                      child: Text("内外双旗舰屏幕｜徕卡专业光学镜头｜徕卡原生双画质",
-                          style: TextStyle(
-                            fontSize: ScreenAdapter.fontSize(34),
-                          )),
-                    ),
                     Container(
-                      padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
+                      margin: EdgeInsets.only(bottom: ScreenAdapter.height(26)),
+                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                      //行
                       child: Row(
                         children: [
+                          //左侧
+                          Container(
+                            padding: EdgeInsets.all(ScreenAdapter.width(60)),
+                            width: ScreenAdapter.width(400),
+                            height: ScreenAdapter.height(460),
+                            child: Image.network(Request.picUrl(item.pic), fit: BoxFit.fitHeight),
+                          ),
+                          //右侧
                           Expanded(
-                              child: Column(
-                            children: [
-                              Text("CUP", style: TextStyle(fontSize: ScreenAdapter.fontSize(34), fontWeight: FontWeight.bold)),
-                              Text("Helio G25",
-                                  style: TextStyle(
-                                    fontSize: ScreenAdapter.fontSize(34),
-                                  ))
-                            ],
-                          )),
-                          Expanded(
-                              child: Column(
-                            children: [
-                              Text("高清拍摄", style: TextStyle(fontSize: ScreenAdapter.fontSize(34), fontWeight: FontWeight.bold)),
-                              Text("1300万像素",
-                                  style: TextStyle(
-                                    fontSize: ScreenAdapter.fontSize(34),
-                                  ))
-                            ],
-                          )),
-                          Expanded(
-                              child: Column(
-                            children: [
-                              Text("超大屏", style: TextStyle(fontSize: ScreenAdapter.fontSize(34), fontWeight: FontWeight.bold)),
-                              Text("6.1寸",
-                                  style: TextStyle(
-                                    fontSize: ScreenAdapter.fontSize(34),
-                                  ))
-                            ],
-                          ))
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
+                                  child: Text(item.title, style: TextStyle(fontSize: ScreenAdapter.fontSize(42), fontWeight: FontWeight.bold)),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
+                                  child: Text(item.subTitle, style: TextStyle(fontSize: ScreenAdapter.fontSize(34))),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: ScreenAdapter.height(20)),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            Text("CUP", style: TextStyle(fontSize: ScreenAdapter.fontSize(34), fontWeight: FontWeight.bold)),
+                                            Text("Helio G25",
+                                                style: TextStyle(
+                                                  fontSize: ScreenAdapter.fontSize(34),
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            Text("高清拍摄", style: TextStyle(fontSize: ScreenAdapter.fontSize(34), fontWeight: FontWeight.bold)),
+                                            Text("1300万像素",
+                                                style: TextStyle(
+                                                  fontSize: ScreenAdapter.fontSize(34),
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            Text("超大屏", style: TextStyle(fontSize: ScreenAdapter.fontSize(34), fontWeight: FontWeight.bold)),
+                                            Text("6.1寸",
+                                                style: TextStyle(
+                                                  fontSize: ScreenAdapter.fontSize(34),
+                                                ))
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Text("￥${item.price}起", style: TextStyle(fontSize: ScreenAdapter.fontSize(38), fontWeight: FontWeight.bold))
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    Text("￥8999起", style: TextStyle(fontSize: ScreenAdapter.fontSize(38), fontWeight: FontWeight.bold))
+                    (index == controller.productList.length - 1) ? _progressIndicator() : const Text("")
                   ],
-                ))
-              ],
-            ),
-          );
-        });
+                );
+              },
+            )
+          : _progressIndicator(),
+    );
   }
 
   Widget _subHeaderWidget() {
@@ -150,7 +177,6 @@ class ProductListView extends GetView<ProductListController> {
 
   @override
   Widget build(BuildContext context) {
-    print(Get.arguments);
     return Scaffold(
       // backgroundColor: const Color.fromRGBO(246, 246, 246, 1),
       appBar: AppBar(
