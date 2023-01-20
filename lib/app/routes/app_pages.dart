@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:xmshop/app/modules/product_list/bindings/product_list_binding.dart';
 import 'package:xmshop/app/modules/product_list/views/product_list_view.dart';
+import 'package:xmshop/app/modules/serach/bindings/search_binding.dart';
 import 'package:xmshop/app/modules/serach/views/serach_view.dart';
 import 'package:xmshop/app/modules/tabs/bindings/tabs_binding.dart';
 import 'package:xmshop/app/modules/tabs/views/tabs_view.dart';
@@ -25,7 +26,10 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SEARCH,
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 100),
       page: () => const SerachView(),
+      binding: SearchBinding(),
     ),
   ];
 }

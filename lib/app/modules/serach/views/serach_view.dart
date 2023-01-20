@@ -122,6 +122,10 @@ class SerachView extends GetView<SerachController> {
           onChanged: (value) {
             controller.keywords = value;
           },
+          // 键盘回车事件
+          onSubmitted: (value) {
+            Get.toNamed(Routes.PRODUCT_LIST, arguments: {"keywords": value});
+          },
         ),
       ),
       centerTitle: true,

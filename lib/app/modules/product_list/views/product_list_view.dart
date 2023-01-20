@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xmshop/app/apis/request.dart';
 import 'package:xmshop/app/modules/product_list/controllers/product_list_controller.dart';
+import 'package:xmshop/app/routes/app_pages.dart';
 import 'package:xmshop/app/services/screen_adapter.dart';
 
 class ProductListView extends GetView<ProductListController> {
@@ -159,15 +160,20 @@ class ProductListView extends GetView<ProductListController> {
             color: const Color.fromRGBO(246, 246, 246, 1),
             borderRadius: BorderRadius.circular(30),
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(ScreenAdapter.width(34), 0, ScreenAdapter.width(10), 0),
-                child: const Icon(Icons.search),
-              ),
-              Text("${controller.keywords}", style: TextStyle(color: Colors.black54, fontSize: ScreenAdapter.fontSize(32)))
-            ],
+          child: InkWell(
+            onTap: () {
+              Get.toNamed(Routes.SEARCH, arguments: {"keywords": ""});
+            },
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(ScreenAdapter.width(34), 0, ScreenAdapter.width(10), 0),
+                  child: const Icon(Icons.search),
+                ),
+                Text("${controller.keywords}", style: TextStyle(color: Colors.black54, fontSize: ScreenAdapter.fontSize(32)))
+              ],
+            ),
           ),
         ),
         centerTitle: true,
