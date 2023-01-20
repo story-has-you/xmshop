@@ -12,6 +12,8 @@ class ProductListController extends GetxController {
   bool flag = true;
   GlobalKey<ScaffoldState> scaffoldGlobalKey = GlobalKey();
   String sort = "";
+  String? keywords = Get.arguments["keywords"];
+  String? cid = Get.arguments["id"];
 
   /*二级导航数据*/
   final List subHeaderList = [
@@ -46,7 +48,13 @@ class ProductListController extends GetxController {
   void _initProductList() async {
     if (flag && hasData.value) {
       flag = false;
-      Map<String, dynamic> queryParameters = {"cid": Get.arguments["id"], "page": start, "pageSize": limit, "sort": sort};
+      Map<String, dynamic> queryParameters = {
+        "cid": cid,
+        "page": start,
+        "pageSize": limit,
+        "sort": sort,
+        "search": keywords,
+      };
       var response = await request.fetch("/api/plist", queryParameters: queryParameters);
       var plistTemp = PlistModel.fromJson(response.data);
       //注意:拼接数据

@@ -166,7 +166,7 @@ class ProductListView extends GetView<ProductListController> {
                 padding: EdgeInsets.fromLTRB(ScreenAdapter.width(34), 0, ScreenAdapter.width(10), 0),
                 child: const Icon(Icons.search),
               ),
-              Text("手机", style: TextStyle(color: Colors.black54, fontSize: ScreenAdapter.fontSize(32)))
+              Text("${controller.keywords}", style: TextStyle(color: Colors.black54, fontSize: ScreenAdapter.fontSize(32)))
             ],
           ),
         ),

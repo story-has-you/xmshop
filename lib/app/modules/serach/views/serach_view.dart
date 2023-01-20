@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:xmshop/app/modules/serach/controllers/serach_controller.dart';
+import 'package:xmshop/app/routes/app_pages.dart';
 import 'package:xmshop/app/services/screen_adapter.dart';
 
 class SerachView extends GetView<SerachController> {
@@ -118,13 +119,18 @@ class SerachView extends GetView<SerachController> {
               borderSide: BorderSide.none,
             ),
           ),
+          onChanged: (value) {
+            controller.keywords = value;
+          },
         ),
       ),
       centerTitle: true,
       backgroundColor: Colors.white,
       actions: [
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(Routes.PRODUCT_LIST, arguments: {"keywords": controller.keywords});
+          },
           child: Text("搜索", style: TextStyle(fontSize: ScreenAdapter.fontSize(36), color: Colors.black54)),
         )
       ],
