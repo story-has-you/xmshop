@@ -115,70 +115,42 @@ class ProductListView extends GetView<ProductListController> {
 
   Widget _subHeaderWidget() {
     return Positioned(
-        left: 0,
-        right: 0,
-        top: 0,
-        child: Container(
+      left: 0,
+      right: 0,
+      top: 0,
+      child: Obx(
+        () => Container(
           height: ScreenAdapter.height(120),
           width: ScreenAdapter.width(1080),
           decoration: BoxDecoration(color: Colors.white, border: Border(bottom: BorderSide(width: ScreenAdapter.height(2), color: const Color.fromRGBO(233, 233, 233, 0.9)))),
           child: Row(
-            children: [
-              Expanded(
+            children: controller.subHeaderList.map((e) {
+              return Expanded(
                 flex: 1,
                 child: InkWell(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(0, ScreenAdapter.height(16), 0, ScreenAdapter.height(16)),
                     child: Text(
-                      "综合",
+                      "${e['title']}",
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.red, fontSize: ScreenAdapter.fontSize(32)),
+                      style: TextStyle(color: controller.selectHeaderId == e['id'] ? Colors.red : Colors.black, fontSize: ScreenAdapter.fontSize(32)),
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () => controller.subHanderChange(e['id']),
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, ScreenAdapter.height(16), 0, ScreenAdapter.height(16)),
-                    child: Text("销量", textAlign: TextAlign.center, style: TextStyle(fontSize: ScreenAdapter.fontSize(32))),
-                  ),
-                  onTap: () {},
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, ScreenAdapter.height(16), 0, ScreenAdapter.height(16)),
-                    child: Text("价格", textAlign: TextAlign.center, style: TextStyle(fontSize: ScreenAdapter.fontSize(32))),
-                  ),
-                  onTap: () {},
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: InkWell(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, ScreenAdapter.height(16), 0, ScreenAdapter.height(16)),
-                    child: Text("筛选", textAlign: TextAlign.center, style: TextStyle(fontSize: ScreenAdapter.fontSize(32))),
-                  ),
-                  onTap: () {
-                    //注意：新版本中ScaffoldState? 为可空类型 注意判断
-                  },
-                ),
-              ),
-            ],
+              );
+            }).toList(),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color.fromRGBO(246, 246, 246, 1),
+      key: controller.scaffoldGlobalKey,
+      endDrawer: const Drawer(child: Text("右侧筛选")),
       appBar: AppBar(
         title: Container(
           width: ScreenAdapter.width(900),
@@ -201,6 +173,8 @@ class ProductListView extends GetView<ProductListController> {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
+        // 覆盖抽屉组件
+        actions: const [Text("")],
       ),
       body: Stack(
         children: [_productListWidget(), _subHeaderWidget()],

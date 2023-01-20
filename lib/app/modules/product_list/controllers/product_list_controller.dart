@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:xmshop/app/apis/models/home/plist_model.dart';
 import 'package:xmshop/app/apis/request.dart';
@@ -10,6 +10,18 @@ class ProductListController extends GetxController {
   final ScrollController scrollController = ScrollController();
   final RxBool hasData = true.obs;
   bool flag = true;
+  GlobalKey<ScaffoldState> scaffoldGlobalKey = GlobalKey();
+  String sort = "";
+
+  /*二级导航数据*/
+  final List subHeaderList = [
+    {"id": 1, "title": "综合", "fileds": "all", "sort": -1},
+    {"id": 2, "title": "销量", "fileds": 'salecount', "sort": -1},
+    {"id": 3, "title": "价格", "fileds": 'price', "sort": -1},
+    {"id": 4, "title": "筛选"}
+  ];
+  // 选中的二级导航
+  RxInt selectHeaderId = 1.obs;
 
   @override
   void onInit() {
@@ -34,7 +46,8 @@ class ProductListController extends GetxController {
   void _initProductList() async {
     if (flag && hasData.value) {
       flag = false;
-      var response = await request.fetch("/api/plist?cid=${Get.arguments["id"]}&page=$start&pageSize=$limit");
+      Map<String, dynamic> queryParameters = {"cid": Get.arguments["id"], "page": start, "pageSize": limit, "sort": sort};
+      var response = await request.fetch("/api/plist", queryParameters: queryParameters);
       var plistTemp = PlistModel.fromJson(response.data);
       //注意:拼接数据
       productList.addAll(plistTemp.result);
@@ -45,5 +58,26 @@ class ProductListController extends GetxController {
         hasData.value = false;
       }
     }
+  }
+
+  // 二级导航触发的方法
+  void subHanderChange(int id) {
+    selectHeaderId.value = id;
+    if (id == 4) {
+      scaffoldGlobalKey.currentState!.openEndDrawer();
+      return;
+    }
+    // 改变排序
+    var s = subHeaderList[id - 1]['sort'] = subHeaderList[id - 1]['sort'] * -1;
+    sort = "${subHeaderList[id - 1]['fileds']}_$s}";
+    // 重置page
+    start = 1;
+    productList.value = [];
+    hasData.value = true;
+    // 滚动条回到顶部
+    scrollController.jumpTo(0);
+    _initProductList();
+
+    update();
   }
 }

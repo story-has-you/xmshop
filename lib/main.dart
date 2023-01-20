@@ -19,7 +19,7 @@ void main() {
         debugShowCheckedModeBanner: false,
         title: "XM SHOP",
         initialRoute: AppPages.INITIAL,
-        theme: ThemeData(primaryColor: Colors.grey),
+        theme: ThemeData(primarySwatch: Colors.grey),
         defaultTransition: Transition.rightToLeft,
         getPages: AppPages.routes,
       );
