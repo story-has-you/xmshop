@@ -294,30 +294,35 @@ class HomeView extends GetView<HomeController> {
               itemBuilder: (context, index) {
                 var item = controller.waterfallsFlowList[index];
                 var picUrl = "${Request.baseUrl}/${item.sPic}";
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    children: [
-                      Container(padding: EdgeInsets.all(ScreenAdapter.width(10)), child: Image.network(picUrl, fit: BoxFit.cover)),
-                      Container(
-                        padding: EdgeInsets.all(ScreenAdapter.width(10)),
-                        width: double.infinity,
-                        child: Text(item.title, textAlign: TextAlign.start, style: TextStyle(fontSize: ScreenAdapter.fontSize(36), fontWeight: FontWeight.bold)),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(ScreenAdapter.width(10)),
-                        width: double.infinity,
-                        child: Text(item.subTitle, textAlign: TextAlign.start, style: TextStyle(fontSize: ScreenAdapter.fontSize34())),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(ScreenAdapter.width(10)),
-                        width: double.infinity,
-                        child: Text("¥ ${item.price}元", textAlign: TextAlign.start, style: TextStyle(fontSize: ScreenAdapter.fontSize34())),
-                      ),
-                    ],
+                return InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.PRODUCT_DETAIL, arguments: {"productId": item.id});
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(padding: EdgeInsets.all(ScreenAdapter.width(10)), child: Image.network(picUrl, fit: BoxFit.cover)),
+                        Container(
+                          padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                          width: double.infinity,
+                          child: Text(item.title, textAlign: TextAlign.start, style: TextStyle(fontSize: ScreenAdapter.fontSize(36), fontWeight: FontWeight.bold)),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                          width: double.infinity,
+                          child: Text(item.subTitle, textAlign: TextAlign.start, style: TextStyle(fontSize: ScreenAdapter.fontSize34())),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(ScreenAdapter.width(10)),
+                          width: double.infinity,
+                          child: Text("¥ ${item.price}元", textAlign: TextAlign.start, style: TextStyle(fontSize: ScreenAdapter.fontSize34())),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
