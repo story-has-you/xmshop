@@ -15,7 +15,88 @@ class ProductDetailView extends GetView<ProductDetailController> {
         preferredSize: Size.fromHeight(ScreenAdapter.height(120)),
         child: Obx(() => _appBar(context)),
       ),
-      body: _body(),
+      body: Stack(children: [_body(), _bottom()]),
+    );
+  }
+
+  Widget _bottom() {
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Container(
+        height: ScreenAdapter.height(180),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          // 上面的线
+          border: Border(top: BorderSide(width: ScreenAdapter.width(2), color: Colors.black)),
+        ),
+        child: Row(children: [
+          Container(
+            margin: EdgeInsets.only(left: ScreenAdapter.width(40)),
+            height: ScreenAdapter.height(160),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.support_agent),
+                Text("客服", style: TextStyle(fontSize: ScreenAdapter.fontSize(32))),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: ScreenAdapter.width(40)),
+            height: ScreenAdapter.height(160),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.favorite),
+                Text("收藏", style: TextStyle(fontSize: ScreenAdapter.fontSize(32))),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: ScreenAdapter.width(40)),
+            height: ScreenAdapter.height(160),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.shopping_cart),
+                Text("购物车", style: TextStyle(fontSize: ScreenAdapter.fontSize(32))),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              height: ScreenAdapter.height(120),
+              margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(255, 165, 0, 0.9)),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+                child: const Text("加入购物车"),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              height: ScreenAdapter.height(120),
+              margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(253, 1, 0, 0.9)),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+                child: const Text("立即购买"),
+              ),
+            ),
+          ),
+        ]),
+      ),
     );
   }
 
