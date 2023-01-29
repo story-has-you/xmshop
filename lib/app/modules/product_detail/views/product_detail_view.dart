@@ -15,11 +15,37 @@ class ProductDetailView extends GetView<ProductDetailController> {
         preferredSize: Size.fromHeight(ScreenAdapter.height(120)),
         child: Obx(() => _appBar()),
       ),
-      body: Center(
-        child: Text(
-          'ProductDetailView is working',
-          style: TextStyle(fontSize: 20),
-        ),
+      body: _body(),
+    );
+  }
+
+  Widget _body() {
+    return SingleChildScrollView(
+      controller: controller.scrollController,
+      child: Column(
+        children: [
+          Container(
+            key: controller.key1,
+            alignment: Alignment.center,
+            height: ScreenAdapter.height(1800),
+            color: Colors.orange,
+            child: const Text("商品"),
+          ),
+          Container(
+            key: controller.key2,
+            alignment: Alignment.center,
+            height: ScreenAdapter.height(2900),
+            color: Colors.blue,
+            child: const Text("详情"),
+          ),
+          Container(
+            key: controller.key3,
+            alignment: Alignment.center,
+            height: ScreenAdapter.height(3900),
+            color: Colors.red,
+            child: const Text("推荐"),
+          ),
+        ],
       ),
     );
   }
@@ -57,7 +83,23 @@ class ProductDetailView extends GetView<ProductDetailController> {
                     var id = e['id'];
                     var title = e['title'];
                     return InkWell(
-                      onTap: () => controller.setCurrentTabIndex(id),
+                      onTap: () {
+                        controller.setCurrentTabIndex(id);
+                        Duration duration = const Duration(seconds: 1);
+                        // 跳转到指定的容器
+                        switch (id) {
+                          case 1:
+                            Scrollable.ensureVisible(controller.key1.currentContext as BuildContext, duration: duration);
+                            break;
+                          case 2:
+                            Scrollable.ensureVisible(controller.key2.currentContext as BuildContext, duration: duration);
+                            break;
+                          case 3:
+                            Scrollable.ensureVisible(controller.key3.currentContext as BuildContext, duration: duration);
+                            break;
+                          default:
+                        }
+                      },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
