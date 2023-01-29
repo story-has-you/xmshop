@@ -13,7 +13,7 @@ class ProductDetailView extends GetView<ProductDetailController> {
       extendBodyBehindAppBar: true,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(ScreenAdapter.height(120)),
-        child: Obx(() => _appBar()),
+        child: Obx(() => _appBar(context)),
       ),
       body: _body(),
     );
@@ -50,7 +50,7 @@ class ProductDetailView extends GetView<ProductDetailController> {
     );
   }
 
-  AppBar _appBar() {
+  AppBar _appBar(BuildContext context) {
     return AppBar(
       leading: Container(
         alignment: Alignment.center,
@@ -143,7 +143,29 @@ class ProductDetailView extends GetView<ProductDetailController> {
           width: ScreenAdapter.width(88),
           height: ScreenAdapter.height(88),
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              showMenu(
+                context: context,
+                position: RelativeRect.fromLTRB(ScreenAdapter.width(800), ScreenAdapter.height(220), ScreenAdapter.width(20), 0),
+                items: [
+                  PopupMenuItem(
+                    child: Row(
+                      children: const [Icon(Icons.home, color: Colors.white), Text("首页", style: TextStyle(color: Colors.white))],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    child: Row(
+                      children: const [Icon(Icons.message, color: Colors.white), Text("消息", style: TextStyle(color: Colors.white))],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    child: Row(
+                      children: const [Icon(Icons.star, color: Colors.white), Text("收藏", style: TextStyle(color: Colors.white))],
+                    ),
+                  )
+                ],
+              );
+            },
             style: ButtonStyle(
               // 去掉butten的默认padding
               padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
