@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:xmshop/app/modules/product_detail/controllers/product_detail_controller.dart';
+import 'package:xmshop/app/modules/product_detail/views/detail_page_view.dart';
+import 'package:xmshop/app/modules/product_detail/views/product_page_view.dart';
+import 'package:xmshop/app/modules/product_detail/views/recommend_page_view.dart';
 import 'package:xmshop/app/services/screen_adapter.dart';
 
 class ProductDetailView extends GetView<ProductDetailController> {
@@ -105,27 +108,9 @@ class ProductDetailView extends GetView<ProductDetailController> {
       controller: controller.scrollController,
       child: Column(
         children: [
-          Container(
-            key: controller.key1,
-            alignment: Alignment.center,
-            height: ScreenAdapter.height(1800),
-            color: Colors.orange,
-            child: const Text("商品"),
-          ),
-          Container(
-            key: controller.key2,
-            alignment: Alignment.center,
-            height: ScreenAdapter.height(2900),
-            color: Colors.blue,
-            child: const Text("详情"),
-          ),
-          Container(
-            key: controller.key3,
-            alignment: Alignment.center,
-            height: ScreenAdapter.height(3900),
-            color: Colors.red,
-            child: const Text("推荐"),
-          ),
+          ProductPageView(),
+          DetailPageView(),
+          RecommendPageView(),
         ],
       ),
     );
