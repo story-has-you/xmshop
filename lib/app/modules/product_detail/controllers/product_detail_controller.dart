@@ -19,6 +19,8 @@ class ProductDetailController extends GetxController {
   final GlobalKey key3 = GlobalKey();
 
   var productDetail = ProductDetail().obs;
+  final RxList<Property> properties = <Property>[].obs;
+  RxString checkedValue = "".obs;
 
   @override
   void onInit() {
@@ -37,7 +39,27 @@ class ProductDetailController extends GetxController {
     var response = await request.fetch("/api/pcontent?id=$productId");
     var data = ProductDetailModel.fromJson(response.data);
     productDetail.value = data.result;
+    properties.value = transAttr(productDetail.value.attr!);
     update();
+  }
+
+  List<Property> transAttr(List<Attr> attr) {
+    return attr.map((a) {
+      var cate = a.cate;
+      var propertyValueList = a.list.map((a) => PropertyValue(title: a, checked: false)).toList();
+      return Property(cate: cate, list: propertyValueList);
+    }).toList();
+  }
+
+  void updateCheckedProperty() {
+    checkedValue.value = "";
+    for (var property in properties) {
+      for (var propertyValue in property.list) {
+        if (propertyValue.checked) {
+          checkedValue.value += "${property.cate}：${propertyValue.title}；";
+        }
+      }
+    }
   }
 
   void _initScroll() async {
@@ -56,4 +78,24 @@ class ProductDetailController extends GetxController {
       }
     });
   }
+
+  void checked(Property p, PropertyValue v) {
+    for (var value in p.list) {
+      value.checked = value.title == v.title;
+    }
+    updateCheckedProperty();
+    update();
+  }
+}
+
+class Property {
+  Property({required this.cate, required this.list});
+  late final String cate;
+  late final List<PropertyValue> list;
+}
+
+class PropertyValue {
+  PropertyValue({required this.title, required this.checked});
+  late final String title;
+  late bool checked;
 }

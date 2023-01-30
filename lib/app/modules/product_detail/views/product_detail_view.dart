@@ -23,44 +23,50 @@ class ProductDetailView extends GetView<ProductDetailController> {
   }
 
   void showBottomAttr() {
-    var productDetail = controller.productDetail.value;
-    Get.bottomSheet(
-      Container(
-        color: Colors.white,
-        padding: EdgeInsets.all(ScreenAdapter.width(20)),
-        width: double.infinity,
-        height: ScreenAdapter.height(1200),
-        child: ListView(
-          children: productDetail.attr!.map((e) {
-            return Wrap(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(top: ScreenAdapter.height(20), left: ScreenAdapter.width(20)),
-                  width: ScreenAdapter.width(1040),
-                  child: Text(e.cate, style: const TextStyle(fontWeight: FontWeight.bold)),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: ScreenAdapter.height(20), left: ScreenAdapter.width(20)),
-                  width: ScreenAdapter.width(1040),
-                  child: Wrap(
-                    children: e.list.map((v) {
-                      return Container(
-                        margin: EdgeInsets.all(ScreenAdapter.width(20)),
-                        child: Chip(
-                          padding: EdgeInsets.only(left: ScreenAdapter.width(20), right: ScreenAdapter.width(20)),
-                          backgroundColor: const Color.fromARGB(31, 223, 213, 213),
-                          label: Text(v),
-                        ),
-                      );
-                    }).toList(),
+    // Get.bottomSheet 需要使用 GetBuilder 才能更新页面数据
+    Get.bottomSheet(GetBuilder<ProductDetailController>(
+      init: controller,
+      builder: (controller) {
+        return Container(
+          color: Colors.white,
+          padding: EdgeInsets.all(ScreenAdapter.width(20)),
+          width: double.infinity,
+          height: ScreenAdapter.height(1200),
+          child: ListView(
+            children: controller.properties.map((p) {
+              return Wrap(
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: ScreenAdapter.height(20), left: ScreenAdapter.width(20)),
+                    width: ScreenAdapter.width(1040),
+                    child: Text(p.cate, style: const TextStyle(fontWeight: FontWeight.bold)),
                   ),
-                ),
-              ],
-            );
-          }).toList(),
-        ),
-      ),
-    );
+                  Container(
+                    padding: EdgeInsets.only(top: ScreenAdapter.height(20), left: ScreenAdapter.width(20)),
+                    width: ScreenAdapter.width(1040),
+                    child: Wrap(
+                      children: p.list.map((v) {
+                        return InkWell(
+                          onTap: () => controller.checked(p, v),
+                          child: Container(
+                            margin: EdgeInsets.all(ScreenAdapter.width(20)),
+                            child: Chip(
+                              padding: EdgeInsets.only(left: ScreenAdapter.width(20), right: ScreenAdapter.width(20)),
+                              backgroundColor: v.checked ? Colors.red : const Color.fromARGB(31, 223, 213, 213),
+                              label: Text(v.title),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              );
+            }).toList(),
+          ),
+        );
+      },
+    ));
   }
 
   Widget _bottom() {
