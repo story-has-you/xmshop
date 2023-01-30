@@ -22,6 +22,47 @@ class ProductDetailView extends GetView<ProductDetailController> {
     );
   }
 
+  void showBottomAttr() {
+    var productDetail = controller.productDetail.value;
+    Get.bottomSheet(
+      Container(
+        color: Colors.white,
+        padding: EdgeInsets.all(ScreenAdapter.width(20)),
+        width: double.infinity,
+        height: ScreenAdapter.height(1200),
+        child: ListView(
+          children: productDetail.attr!.map((e) {
+            return Wrap(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: ScreenAdapter.height(20), left: ScreenAdapter.width(20)),
+                  width: ScreenAdapter.width(1040),
+                  child: Text(e.cate, style: const TextStyle(fontWeight: FontWeight.bold)),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: ScreenAdapter.height(20), left: ScreenAdapter.width(20)),
+                  width: ScreenAdapter.width(1040),
+                  child: Wrap(
+                    children: e.list.map((v) {
+                      return Container(
+                        margin: EdgeInsets.all(ScreenAdapter.width(20)),
+                        child: Chip(
+                          padding: EdgeInsets.only(left: ScreenAdapter.width(20), right: ScreenAdapter.width(20)),
+                          backgroundColor: const Color.fromARGB(31, 223, 213, 213),
+                          label: Text(v),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
   Widget _bottom() {
     return Positioned(
       bottom: 0,
@@ -74,7 +115,9 @@ class ProductDetailView extends GetView<ProductDetailController> {
               height: ScreenAdapter.height(120),
               margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  showBottomAttr();
+                },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(255, 165, 0, 0.9)),
                   foregroundColor: MaterialStateProperty.all(Colors.white),
@@ -89,7 +132,9 @@ class ProductDetailView extends GetView<ProductDetailController> {
               height: ScreenAdapter.height(120),
               margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  showBottomAttr();
+                },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(253, 1, 0, 0.9)),
                   foregroundColor: MaterialStateProperty.all(Colors.white),
@@ -108,7 +153,7 @@ class ProductDetailView extends GetView<ProductDetailController> {
       controller: controller.scrollController,
       child: Column(
         children: [
-          ProductPageView(),
+          ProductPageView(showBottomAttr),
           DetailPageView(),
           RecommendPageView(),
         ],
@@ -124,7 +169,9 @@ class ProductDetailView extends GetView<ProductDetailController> {
           width: ScreenAdapter.width(88),
           height: ScreenAdapter.height(88),
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.back();
+            },
             style: ButtonStyle(
               // 去掉butten的默认padding
               padding: MaterialStateProperty.all(const EdgeInsets.all(0)),

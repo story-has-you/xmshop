@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xmshop/app/apis/models/product/product_model.dart';
+import 'package:xmshop/app/apis/request.dart';
 
 class ProductDetailController extends GetxController {
   final ScrollController scrollController = ScrollController();
@@ -16,11 +18,13 @@ class ProductDetailController extends GetxController {
   final GlobalKey key2 = GlobalKey();
   final GlobalKey key3 = GlobalKey();
 
+  var productDetail = ProductDetail().obs;
+
   @override
   void onInit() {
     super.onInit();
     _initScroll();
-    update();
+    _initPoductDetail();
   }
 
   void setCurrentTabIndex(int index) {
@@ -28,7 +32,15 @@ class ProductDetailController extends GetxController {
     update();
   }
 
-  _initScroll() {
+  void _initPoductDetail() async {
+    String productId = Get.arguments["productId"];
+    var response = await request.fetch("/api/pcontent?id=$productId");
+    var data = ProductDetailModel.fromJson(response.data);
+    productDetail.value = data.result;
+    update();
+  }
+
+  void _initScroll() async {
     scrollController.addListener(() {
       double pixels = scrollController.position.pixels;
       if (pixels < 0) {
