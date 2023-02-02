@@ -18,8 +18,42 @@ class ProductDetailView extends GetView<ProductDetailController> {
         preferredSize: Size.fromHeight(ScreenAdapter.height(120)),
         child: Obx(() => _appBar(context)),
       ),
-      body: Stack(children: [_body(), _bottom()]),
+      body: Stack(children: [
+        _body(),
+        _bottom(),
+        Obx(
+          () => controller.showSubTab.value
+              ? Positioned(
+                  left: 0,
+                  // 状态栏高度 + appBar高度
+                  top: ScreenAdapter.getBarHeiget() + ScreenAdapter.height(120),
+                  right: 0,
+                  child: _subHeader(),
+                )
+              : const Text(""),
+        )
+      ]),
     );
+  }
+
+  Widget _subHeader() {
+    return Obx(() => Container(
+          color: Colors.white,
+          child: Row(
+              children: controller.subTabsList.map((value) {
+            return Expanded(
+                child: InkWell(
+              onTap: () {
+                controller.changeSelectedTabsIndex(value["id"]);
+              },
+              child: Container(
+                height: ScreenAdapter.height(120),
+                alignment: Alignment.center,
+                child: Text("${value["title"]}", style: TextStyle(color: controller.selectedTabsIndex == value["id"] ? Colors.red : Colors.black87)),
+              ),
+            ));
+          }).toList()),
+        ));
   }
 
   void showBottomAttr() {
@@ -160,7 +194,7 @@ class ProductDetailView extends GetView<ProductDetailController> {
       child: Column(
         children: [
           ProductPageView(showBottomAttr),
-          DetailPageView(),
+          DetailPageView(_subHeader),
           RecommendPageView(),
         ],
       ),

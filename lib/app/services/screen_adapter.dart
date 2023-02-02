@@ -24,4 +24,11 @@ class ScreenAdapter {
   static double fontSize34() {
     return 34.sp;
   }
+
+  /*
+   * 状态栏高度，刘海屏幕会更高
+   */
+  static double getBarHeiget() {
+    return ScreenUtil().statusBarHeight;
+  }
 }
