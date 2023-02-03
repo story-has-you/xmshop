@@ -8,7 +8,7 @@ import 'package:xmshop/app/services/screen_adapter.dart';
 
 class ProductListView extends GetView<ProductListController> {
   const ProductListView({Key? key}) : super(key: key);
-//自定义组件
+  //自定义组件
   Widget _progressIndicator() {
     if (controller.hasData.value) {
       return const Center(

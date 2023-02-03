@@ -7,9 +7,9 @@ import 'package:xmshop/app/modules/service/views/service_view.dart';
 import 'package:xmshop/app/modules/user/views/user_view.dart';
 
 class TabsController extends GetxController {
-  final RxInt currentIndex = 0.obs;
+  final RxInt currentIndex = 3.obs;
   final List<Widget> pageList = const [HomeView(), CategoryView(), ServiceView(), CartView(), UserView()];
-  final PageController pageController = PageController(initialPage: 0);
+  final PageController pageController = PageController(initialPage: 3);
 
   void setCurrentIndex(index) {
     currentIndex.value = index;
