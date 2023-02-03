@@ -77,7 +77,7 @@ class ProductPageView extends GetView {
               padding: EdgeInsets.only(top: ScreenAdapter.height(20)),
               child: InkWell(
                 onTap: () {
-                  showBottomAttr();
+                  showBottomAttr(1);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

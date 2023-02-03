@@ -56,7 +56,13 @@ class ProductDetailView extends GetView<ProductDetailController> {
         ));
   }
 
-  void showBottomAttr() {
+  /*
+   * action:
+   *  1.筛选属性
+   *  2.加入购物车
+   *  3.立即购买
+   */
+  void showBottomAttr(int action) {
     // Get.bottomSheet 需要使用 GetBuilder 才能更新页面数据
     Get.bottomSheet(GetBuilder<ProductDetailController>(
       init: controller,
@@ -156,7 +162,7 @@ class ProductDetailView extends GetView<ProductDetailController> {
               margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
               child: ElevatedButton(
                 onPressed: () {
-                  showBottomAttr();
+                  showBottomAttr(2);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(255, 165, 0, 0.9)),
@@ -173,7 +179,7 @@ class ProductDetailView extends GetView<ProductDetailController> {
               margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
               child: ElevatedButton(
                 onPressed: () {
-                  showBottomAttr();
+                  showBottomAttr(3);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(253, 1, 0, 0.9)),
